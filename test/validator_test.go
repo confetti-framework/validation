@@ -55,7 +55,8 @@ func Test_validate_invalid_values_with_multiple_rules(t *testing.T) {
 		support.NewValue(nil),
 		val.Verify("title", rule.Present{}, rule.Required{}),
 	)
-	require.Len(t, errs, 2)
+	require.Len(t, errs, 1)
+	require.EqualError(t, errs[0], "field title must be present")
 }
 
 func Test_validate_nested_key_error(t *testing.T) {
@@ -82,4 +83,18 @@ func Test_error_has_stack_trace(t *testing.T) {
 	stack, ok := errors.FindStack(errs[0])
 	require.True(t, ok)
 	require.Contains(t, fmt.Sprintf("%+v", stack), "validator_test.go")
+}
+
+func Test_normal_rule_not_required(t *testing.T) {
+	errs := val.Validate(
+		nil,
+		val.Verify("title", mockRuleNotRequired{}),
+	)
+	require.Empty(t, errs)
+}
+
+type mockRuleNotRequired struct {}
+
+func (m mockRuleNotRequired) Verify(value support.Value) error {
+	return errors.New("don't show this error if value not present")
 }

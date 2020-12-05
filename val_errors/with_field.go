@@ -27,7 +27,7 @@ func FindField(err error) (string, bool) {
 	return fieldHolder.field, true
 }
 
-func WithField(err error, field string) *withField {
+func WithField(err error, field string) error {
 	if err == nil {
 		return nil
 	}

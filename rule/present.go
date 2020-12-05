@@ -4,10 +4,8 @@ import "github.com/lanvard/support"
 
 type Present struct{}
 
-func (p Present) Valid(present bool, _ support.Value) bool {
-	return present
-}
+func (p Present) NeedToBePresent() {}
 
-func (p Present) Error(_ bool, _ support.Value) error {
+func (p Present) Verify(support.Value) error {
 	return MustBePresent
 }

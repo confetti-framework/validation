@@ -1,48 +1,43 @@
 package rule
 
 import (
-	"github.com/lanvard/support"
+	"errors"
 	"github.com/lanvard/validation/rule"
+	"github.com/lanvard/validation/val"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func Test_accepted_field_not_present(t *testing.T) {
-	situation := situation{
-		rule:    rule.Accepted{},
-		present: false,
-		value:   support.NewValue(nil),
-	}
-	require.False(t, situation.isValid())
-	require.Equal(t, rule.IsRequiredError, situation.error())
+	errs := val.Validate(
+		nil,
+		val.Verify("title", rule.Accepted{}),
+	)
+	require.Len(t, errs, 1)
+	require.EqualError(t, errs[0], "field title must be present")
 }
 
 func Test_accepted_field_present_but_empty_string(t *testing.T) {
-	situation := situation{
-		rule:    rule.Accepted{},
-		present: true,
-		value:   support.NewValue(nil),
-	}
-	require.False(t, situation.isValid())
-	require.Equal(t, rule.MustBeAccepted, situation.error())
+	errs := val.Validate(
+		map[string]string{"title": ""},
+		val.Verify("title", rule.Accepted{}),
+	)
+	require.Len(t, errs, 1)
+	require.True(t, errors.Is(errs[0], rule.MustBeAccepted))
 }
 
 func Test_accepted_field_present_with_string_yes(t *testing.T) {
-	situation := situation{
-		rule:    rule.Accepted{},
-		present: true,
-		value:   support.NewValue("yes"),
-	}
-	require.True(t, situation.isValid())
-	require.Nil(t, situation.error())
+	errs := val.Validate(
+		map[string]string{"title": "yes"},
+		val.Verify("title", rule.Accepted{}),
+	)
+	require.Len(t, errs, 0)
 }
 
 func Test_accepted_field_present_with_string_on(t *testing.T) {
-	situation := situation{
-		rule:    rule.Accepted{},
-		present: true,
-		value:   support.NewValue("on"),
-	}
-	require.True(t, situation.isValid())
-	require.Nil(t, situation.error())
+	errs := val.Validate(
+		map[string]string{"title": "on"},
+		val.Verify("title", rule.Accepted{}),
+	)
+	require.Len(t, errs, 0)
 }

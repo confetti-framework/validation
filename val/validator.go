@@ -30,7 +30,7 @@ func verifyVerification(input support.Value, verification Verification) []error 
 		value, err := input.GetE(key)
 		present := err == nil
 
-		for _, rule := range verification.Rules {
+		for _, rule := range getAllRequiredRules(verification) {
 			err := verifyRule(key, present, value, rule)
 			if err != nil {
 				result = append(result, errors.WithStack(err))
@@ -43,38 +43,39 @@ func verifyVerification(input support.Value, verification Verification) []error 
 }
 
 func verifyRule(key string, present bool, value support.Value, rule inter.Rule) error {
-
-	// Verify that the field must be present
-	if needToBePresent(rule) && !present {
-		presentRule := rules.Present{}
-		return val_errors.WithField((presentRule).Verify(value), key)
-	}
-
-	if !needToValidateRule(present, rule) {
+	if !needToVerify(present, rule) {
 		return nil
 	}
 
 	return val_errors.WithField(rule.Verify(value), key)
 }
 
-func needToValidateRule(present bool, rule inter.Rule) bool {
-	// If the field is neither present nor required,
-	// we do not need to validate it further
-	if !needToBePresent(rule) && !present {
+func getAllRequiredRules(verification Verification) []inter.Rule {
+	var result []inter.Rule
+	for _, baseRule := range verification.Rules {
+		if baseRule, ok := baseRule.(inter.RuleWithRequirements); ok {
+			result = append(result, baseRule.Require()...)
+		}
+
+		result = append(result, baseRule)
+	}
+	return result
+}
+
+func needToVerify(present bool, rule inter.Rule) bool {
+	_, isPresentRule := rule.(rules.Present)
+
+	// If the field is neither present nor required to be present,
+	// we do not need to validate further
+	if !isPresentRule && !present {
 		return false
 	}
 
-	// If we only need to check if the value
-	// is present, then this rule is valid now
-	_, isPresentRule := rule.(rules.Present)
-	if isPresentRule {
+	// If we only need to check if the value is present, and the value
+	// is present, we do not need to validate further
+	if isPresentRule && present {
 		return false
 	}
 
 	return true
-}
-
-func needToBePresent(rule inter.Rule) bool {
-	_, needToBePresent := rule.(inter.RuleNeedToBePresent)
-	return needToBePresent
 }

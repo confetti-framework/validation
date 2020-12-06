@@ -1,10 +1,17 @@
 package rule
 
-import "github.com/lanvard/support"
+import (
+	"github.com/lanvard/contract/inter"
+	"github.com/lanvard/support"
+)
 
 type Accepted struct{}
 
-func (a Accepted) NeedToBePresent() {}
+func (a Accepted) Require() []inter.Rule {
+	return []inter.Rule{
+		Present{},
+	}
+}
 
 func (a Accepted) Verify(value support.Value) error {
 	if !value.Bool() {

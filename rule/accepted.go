@@ -15,7 +15,7 @@ func (a Accepted) Require() []inter.Rule {
 
 func (a Accepted) Verify(value support.Value) error {
 	if !value.Bool() {
-		return MustBeAccepted
+		return MustBeAcceptedError
 	}
 	return nil
 }

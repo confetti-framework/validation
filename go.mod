@@ -8,6 +8,7 @@ require (
 	github.com/lanvard/support v0.1.0
 	github.com/lanvard/syslog v0.0.0-20201116213126-66df7a6162c3
 	github.com/stretchr/testify v1.6.1
+	github.com/uniplaces/carbon v0.1.6
 )
 
 replace (

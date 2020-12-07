@@ -26,12 +26,12 @@ func verifyVerification(input support.Value, verification Verification) []error 
 
 	// If the key contains an asterisk, then there are more keys we need to verify
 	keys := support.GetSearchableKeysByOneKey(verification.Field, input)
-	for _, key := range keys {
-		value, err := input.GetE(key)
+	for _, field := range keys {
+		value, err := input.GetE(field)
 		present := err == nil
 
 		for _, rule := range getAllRequiredRules(verification) {
-			err := verifyRule(key, present, value, rule)
+			err := verifyRule(field, present, value, rule)
 			if err != nil {
 				result = append(result, errors.WithStack(err))
 				break
@@ -42,12 +42,12 @@ func verifyVerification(input support.Value, verification Verification) []error 
 	return result
 }
 
-func verifyRule(key string, present bool, value support.Value, rule inter.Rule) error {
+func verifyRule(field string, present bool, value support.Value, rule inter.Rule) error {
 	if !needToVerify(present, rule) {
 		return nil
 	}
 
-	return val_errors.WithField(rule.Verify(value), key)
+	return val_errors.WithAttribute(rule.Verify(value), map[string]string{"attribute": field})
 }
 
 func getAllRequiredRules(verification Verification) []inter.Rule {

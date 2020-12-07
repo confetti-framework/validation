@@ -21,7 +21,7 @@ func Test_required_and_not_present(t *testing.T) {
 		support.NewValue(nil),
 		val.Verify("name", rule.Required{}),
 	)
-	require.EqualError(t, errors[0], "field name must be present")
+	require.EqualError(t, errors[0], "the name must be present")
 }
 
 func Test_required_and_present_but_empty(t *testing.T) {
@@ -29,5 +29,5 @@ func Test_required_and_present_but_empty(t *testing.T) {
 		support.NewValue(map[string]string{"age": ""}),
 		val.Verify("age", rule.Required{}),
 	)
-	require.EqualError(t, errors[0], "field age is required")
+	require.EqualError(t, errors[0], "the age is required")
 }

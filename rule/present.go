@@ -14,5 +14,5 @@ func (p Present) Require() []inter.Rule {
 }
 
 func (p Present) Verify(support.Value) error {
-	return MustBePresent
+	return MustBePresentError
 }

@@ -21,5 +21,5 @@ func Test_not_present(t *testing.T) {
 		support.NewValue(map[string]string{"age": "60"}),
 		val.Verify("name", rule.Present{}),
 	)
-	require.EqualError(t, errors[0], "field name must be present")
+	require.EqualError(t, errors[0], "the name must be present")
 }

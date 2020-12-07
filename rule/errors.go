@@ -6,7 +6,12 @@ import (
 	net "net/http"
 )
 
+// Validation Error
 var ValidationError = errors.New("").Status(net.StatusUnprocessableEntity).Level(log_level.INFO)
-var MustBePresent = ValidationError.Wrap("field %s must be present")
-var IsRequiredError = ValidationError.Wrap("field %s is required")
-var MustBeAccepted = ValidationError.Wrap("field %s must be accepted")
+var MustBePresentError = ValidationError.Wrap("the :attribute must be present")
+var IsRequiredError = ValidationError.Wrap("the :attribute is required")
+var MustBeAcceptedError = ValidationError.Wrap("the :attribute must be accepted")
+var DateMustBeError = ValidationError.Wrap("the :attribute must be after :date")
+
+// System Error
+var NoOptionsGivenError = errors.New("options are required")

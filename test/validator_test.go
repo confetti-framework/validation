@@ -58,7 +58,7 @@ func Test_validate_invalid_values_with_multiple_rules(t *testing.T) {
 		val.Verify("title", rule.Present{}, rule.Required{}),
 	)
 	require.Len(t, errs, 1)
-	require.EqualError(t, errs[0], "field title must be present")
+	require.EqualError(t, errs[0], "the title must be present")
 }
 
 func Test_validate_nested_key_error(t *testing.T) {
@@ -66,7 +66,7 @@ func Test_validate_nested_key_error(t *testing.T) {
 		support.NewValue(map[string]string{}),
 		val.Verify("user.title", rule.Present{}),
 	)
-	require.EqualError(t, errs[0], "field user.title must be present")
+	require.EqualError(t, errs[0], "the user.title must be present")
 }
 
 func Test_validate_map(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_validate_map(t *testing.T) {
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
-	require.EqualError(t, errs[0], "field user.title must be present")
+	require.EqualError(t, errs[0], "the user.title must be present")
 }
 
 func Test_error_has_stack_trace(t *testing.T) {

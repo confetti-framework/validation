@@ -1,7 +1,12 @@
 package rule
 
-import "github.com/lanvard/errors"
+import (
+	"github.com/lanvard/errors"
+	"github.com/lanvard/syslog/log_level"
+	net "net/http"
+)
 
-var MustBePresent = errors.New("field %s must be present")
-var IsRequiredError = errors.New("field %s is required")
-var MustBeAccepted = errors.New("field %s must be accepted")
+var ValidationError = errors.New("").Status(net.StatusUnprocessableEntity).Level(log_level.INFO)
+var MustBePresent = ValidationError.Wrap("field %s must be present")
+var IsRequiredError = ValidationError.Wrap("field %s is required")
+var MustBeAccepted = ValidationError.Wrap("field %s must be accepted")

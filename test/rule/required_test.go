@@ -29,5 +29,5 @@ func Test_required_and_present_but_empty(t *testing.T) {
 		support.NewValue(map[string]string{"age": ""}),
 		val.Verify("age", rule.Required{}),
 	)
-	require.EqualError(t, errors[0], "field age must be present")
+	require.EqualError(t, errors[0], "field age is required")
 }

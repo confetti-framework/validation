@@ -15,7 +15,7 @@ func (r Required) Require() []inter.Rule {
 
 func (r Required) Verify(value support.Value) error {
 	if !value.Filled() {
-		return MustBePresent
+		return IsRequiredError
 	}
 	return nil
 }

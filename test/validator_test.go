@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"github.com/lanvard/errors"
 	"github.com/lanvard/support"
+	"github.com/lanvard/syslog/log_level"
 	"github.com/lanvard/validation/rule"
 	"github.com/lanvard/validation/val"
 	"github.com/stretchr/testify/require"
+	net "net/http"
 	"testing"
 )
 
@@ -93,7 +95,25 @@ func Test_normal_rule_not_required(t *testing.T) {
 	require.Empty(t, errs)
 }
 
-type mockRuleNotRequired struct {}
+func Test_validation_error_status(t *testing.T) {
+	errs := val.Validate(
+		map[string]string{},
+		val.Verify("user.title", rule.Present{}),
+	)
+	status, _ := errors.FindStatus(errs[0])
+	require.Equal(t, net.StatusUnprocessableEntity, status)
+}
+
+func Test_validation_log_level(t *testing.T) {
+	errs := val.Validate(
+		map[string]string{},
+		val.Verify("user.title", rule.Present{}),
+	)
+	level, _ := errors.FindLevel(errs[0])
+	require.Equal(t, log_level.INFO, level)
+}
+
+type mockRuleNotRequired struct{}
 
 func (m mockRuleNotRequired) Verify(value support.Value) error {
 	return errors.New("don't show this error if value not present")

@@ -20,7 +20,7 @@ func Test_after_field_not_present(t *testing.T) {
 func Test_after_field_no_options(t *testing.T) {
 	value := support.NewValue("2021")
 	err := rule.After{}.Verify(value)
-	require.EqualError(t, err, "the :attribute with rule.After: option Date is required")
+	require.EqualError(t, err, "option Date is required")
 }
 
 func Test_after_tomorrow(t *testing.T) {
@@ -57,7 +57,7 @@ func Test_after_with_clear_format(t *testing.T) {
 
 	err := rule.After{
 		Date:     carbon.Now().AddDay(),
-		Format:   "HH:mm",
+		Format:   "HH:MM",
 		TimeZone: "UTC",
 	}.Verify(value)
 

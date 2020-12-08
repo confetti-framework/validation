@@ -77,6 +77,14 @@ func Test_validate_map(t *testing.T) {
 	require.EqualError(t, errs[0], "the user.title must be present")
 }
 
+func Test_validate_gives_non_validation_error(t *testing.T) {
+	errs := val.Validate(
+		map[string]string{"user": "Jip"},
+		val.Verify("user", mockRuleWithNonValidationError{}),
+	)
+	require.EqualError(t, errs[0], "failed to validate user with test.mockRuleWithNonValidationError: option Date is required")
+}
+
 func Test_error_has_stack_trace(t *testing.T) {
 	errs := val.Validate(
 		map[string]string{},
@@ -117,4 +125,10 @@ type mockRuleNotRequired struct{}
 
 func (m mockRuleNotRequired) Verify(value support.Value) error {
 	return errors.New("don't show this error if value not present")
+}
+
+type mockRuleWithNonValidationError struct{}
+
+func (m mockRuleWithNonValidationError) Verify(value support.Value) error {
+	return errors.New("option Date is required")
 }

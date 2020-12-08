@@ -26,14 +26,14 @@ func verifyVerification(input support.Value, verification Verification) []error 
 
 	// If the key contains an asterisk, then there are more keys we need to verify
 	keys := support.GetSearchableKeysByOneKey(verification.Field, input)
-	for _, field := range keys {
-		value, err := input.GetE(field)
+	for _, key := range keys {
+		value, err := input.GetE(key)
 		present := err == nil
 
 		for _, rule := range getAllRequiredRules(verification) {
-			err := verifyRule(field, present, value, rule)
+			err := verifyRule(present, value, rule)
 			if err != nil {
-				result = append(result, errors.WithStack(err))
+				result = append(result, decorateErr(err, key, rule))
 				break
 			}
 		}
@@ -42,12 +42,21 @@ func verifyVerification(input support.Value, verification Verification) []error 
 	return result
 }
 
-func verifyRule(field string, present bool, value support.Value, rule inter.Rule) error {
+func decorateErr(err error, key support.Key, rule inter.Rule) error {
+	if !errors.Is(err, rules.ValidationError) {
+		err = errors.WithMessage(err, "failed to validate :attribute with %s", support.Name(rule))
+	}
+
+	err = errors.WithStack(err)
+	return val_errors.WithAttribute(err, map[string]string{"attribute": key})
+}
+
+func verifyRule(present bool, value support.Value, rule inter.Rule) error {
 	if !needToVerify(present, rule) {
 		return nil
 	}
 
-	return val_errors.WithAttribute(rule.Verify(value), map[string]string{"attribute": field})
+	return rule.Verify(value)
 }
 
 func getAllRequiredRules(verification Verification) []inter.Rule {

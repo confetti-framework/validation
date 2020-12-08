@@ -15,7 +15,7 @@ type After struct {
 
 func (a After) Verify(value support.Value) error {
 	if a.Date == nil {
-		return OptionDateIsRequired.Wrap("the :attribute with rule.After")
+		return OptionDateIsRequired
 	}
 
 	if a.Format == "" {

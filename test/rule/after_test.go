@@ -29,6 +29,14 @@ func Test_after_tomorrow(t *testing.T) {
 	require.Nil(t, err)
 }
 
+func Test_after_but_equal(t *testing.T) {
+	date := carbon.Now()
+	value := support.NewValue(date.String())
+	err := rule.After{Date: date}.Verify(value)
+	require.NotNil(t, err)
+	require.Regexp(t, `the :attribute must be after \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}`, err.Error())
+}
+
 func Test_after_not_after(t *testing.T) {
 	value := support.NewValue(carbon.Now().String())
 	err := rule.After{Date: carbon.Now().AddDay()}.Verify(value)

@@ -4,7 +4,6 @@ import (
 	"github.com/lanvard/support"
 	"github.com/lanvard/validation/val_errors"
 	"github.com/uniplaces/carbon"
-	"github.com/vigneshuvi/GoDateFormat"
 )
 
 type After struct {
@@ -14,31 +13,22 @@ type After struct {
 }
 
 func (a After) Verify(value support.Value) error {
-	if a.Date == nil {
-		return OptionDateIsRequired
-	}
+	format := normalizeFormat(a.Format)
+	zone := normalizeZone(a.TimeZone)
 
-	if a.Format == "" {
-		a.Format = carbon.DefaultFormat
-	}
-
-	a.Format = GoDateFormat.ConvertFormat(a.Format)
-
-	if a.TimeZone == "" {
-		a.TimeZone = "Local"
-	}
-	err := a.Date.SetTimeZone(a.TimeZone)
+	compareDate, err := normalizeCompareDate(a.Date, zone)
 	if err != nil {
 		return err
 	}
 
-	after, err := carbon.CreateFromFormat(a.Format, value.String(), a.TimeZone)
+	after, err := normalizeInputDate(value.String(), format, zone)
 	if err != nil {
 		return err
 	}
 
-	if !after.GreaterThan(a.Date) {
-		return val_errors.WithAttribute(DateMustBeError, map[string]string{"date": a.Date.Format(a.Format)})
+	if !after.GreaterThan(compareDate) {
+		return val_errors.WithAttribute(DateMustBeError, map[string]string{"date": compareDate.Format(format)})
 	}
+
 	return nil
 }

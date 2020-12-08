@@ -4,6 +4,7 @@ import (
 	"github.com/lanvard/support"
 	"github.com/lanvard/validation/val_errors"
 	"github.com/uniplaces/carbon"
+	"github.com/vigneshuvi/GoDateFormat"
 )
 
 type After struct {
@@ -14,12 +15,14 @@ type After struct {
 
 func (a After) Verify(value support.Value) error {
 	if a.Date == nil {
-		return NoOptionsGivenError.Wrap("the :attribute with rule.After")
+		return OptionDateIsRequired.Wrap("the :attribute with rule.After")
 	}
 
 	if a.Format == "" {
 		a.Format = carbon.DefaultFormat
 	}
+
+	a.Format = GoDateFormat.ConvertFormat(a.Format)
 
 	if a.TimeZone == "" {
 		a.TimeZone = "Local"

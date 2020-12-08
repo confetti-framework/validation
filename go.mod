@@ -9,6 +9,7 @@ require (
 	github.com/lanvard/syslog v0.0.0-20201116213126-66df7a6162c3
 	github.com/stretchr/testify v1.6.1
 	github.com/uniplaces/carbon v0.1.6
+	github.com/vigneshuvi/GoDateFormat v0.0.0-20190923034126-379ee8a8c45f
 )
 
 replace (

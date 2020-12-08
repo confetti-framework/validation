@@ -14,4 +14,4 @@ var MustBeAcceptedError = ValidationError.Wrap("the :attribute must be accepted"
 var DateMustBeError = ValidationError.Wrap("the :attribute must be after :date")
 
 // System Error
-var NoOptionsGivenError = errors.New("options are required")
+var OptionDateIsRequired = errors.New("option Date is required")

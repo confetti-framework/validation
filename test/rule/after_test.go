@@ -12,7 +12,7 @@ import (
 func Test_after_field_not_present(t *testing.T) {
 	errs := val.Validate(
 		nil,
-		val.Verify("date", rule.After{}),
+		val.Verify("start_date", rule.After{}),
 	)
 	require.Len(t, errs, 0)
 }
@@ -20,7 +20,7 @@ func Test_after_field_not_present(t *testing.T) {
 func Test_after_field_no_options(t *testing.T) {
 	value := support.NewValue("2021")
 	err := rule.After{}.Verify(value)
-	require.EqualError(t, err, "the :attribute with rule.After: options are required")
+	require.EqualError(t, err, "the :attribute with rule.After: option Date is required")
 }
 
 func Test_after_tomorrow(t *testing.T) {
@@ -44,6 +44,21 @@ func Test_after_with_input_format(t *testing.T) {
 	err := rule.After{
 		Date:   carbon.Now().AddDay(),
 		Format: carbon.HourMinuteFormat,
+	}.Verify(value)
+
+	require.NotNil(t, err)
+	require.Regexp(t, `the :attribute must be after \d{2}:\d{2}`, err.Error())
+}
+
+func Test_after_with_clear_format(t *testing.T) {
+	input := carbon.Now()
+	input.SetStringFormat(carbon.HourMinuteFormat)
+	value := support.NewValue(input.String())
+
+	err := rule.After{
+		Date:     carbon.Now().AddDay(),
+		Format:   "HH:mm",
+		TimeZone: "UTC",
 	}.Verify(value)
 
 	require.NotNil(t, err)

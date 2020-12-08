@@ -28,11 +28,11 @@ func FindByAttribute(err error) (string, bool) {
 	return message, ok
 }
 
-func WithAttribute(err error, attributes map[string]string) error {
+func WithAttribute(err error, key string, attribute string) error {
 	if err == nil {
 		return nil
 	}
-	return &withAttribute{err, attributes}
+	return &withAttribute{err, map[string]string{key: attribute}}
 }
 
 type withAttribute struct {
@@ -50,7 +50,7 @@ func (w *withAttribute) Error() string {
 }
 
 func (w *withAttribute) Format(st fmt.State, verb rune) {
-	errors.Format(st, verb, w)
+	errors.Format(st, verb, w.cause)
 }
 
 func (w *withAttribute) Unwrap() error {

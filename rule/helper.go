@@ -5,7 +5,7 @@ import (
 	"github.com/vigneshuvi/GoDateFormat"
 )
 
-func normalizeInputDate(value string, format string, zone string) (*carbon.Carbon, error) {
+func normalizeDate(value string, format string, zone string) (*carbon.Carbon, error) {
 	return carbon.CreateFromFormat(format, value, zone)
 }
 

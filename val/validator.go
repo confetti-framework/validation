@@ -25,15 +25,15 @@ func verifyVerification(input support.Value, verification Verification) []error 
 	var result []error
 
 	// If the key contains an asterisk, then there are more keys we need to verify
-	keys := support.GetSearchableKeysByOneKey(verification.Field, input)
-	for _, key := range keys {
-		value, err := input.GetE(key)
+	fields := support.GetSearchableKeysByOneKey(verification.Field, input)
+	for _, field := range fields {
+		value, err := input.GetE(field)
 		present := err == nil
 
 		for _, rule := range getAllRequiredRules(verification) {
 			err := verifyRule(present, value, rule)
 			if err != nil {
-				result = append(result, decorateErr(err, key, rule))
+				result = append(result, decorateErr(err, field, rule))
 				break
 			}
 		}
@@ -42,13 +42,13 @@ func verifyVerification(input support.Value, verification Verification) []error 
 	return result
 }
 
-func decorateErr(err error, key support.Key, rule inter.Rule) error {
+func decorateErr(err error, field support.Key, rule inter.Rule) error {
 	if !errors.Is(err, rules.ValidationError) {
 		err = errors.WithMessage(err, "failed to validate :attribute with %s", support.Name(rule))
 	}
 
 	err = errors.WithStack(err)
-	return val_errors.WithAttribute(err, map[string]string{"attribute": key})
+	return val_errors.WithAttribute(err, "attribute", field)
 }
 
 func verifyRule(present bool, value support.Value, rule inter.Rule) error {

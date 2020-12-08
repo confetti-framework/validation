@@ -21,13 +21,13 @@ func (a After) Verify(value support.Value) error {
 		return err
 	}
 
-	after, err := normalizeInputDate(value.String(), format, zone)
+	after, err := normalizeDate(value.String(), format, zone)
 	if err != nil {
 		return err
 	}
 
 	if !after.GreaterThan(compareDate) {
-		return val_errors.WithAttribute(DateMustBeError, map[string]string{"date": compareDate.Format(format)})
+		return val_errors.WithAttribute(DateMustBeAfterError, "date", compareDate.Format(format))
 	}
 
 	return nil

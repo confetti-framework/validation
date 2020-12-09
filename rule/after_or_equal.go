@@ -2,6 +2,7 @@ package rule
 
 import (
 	"github.com/lanvard/support"
+	"github.com/lanvard/validation/val_errors"
 	"github.com/uniplaces/carbon"
 )
 
@@ -12,9 +13,25 @@ type AfterOrEqual struct {
 }
 
 func (a AfterOrEqual) Verify(value support.Value) error {
+	format := normalizeFormat(a.Format)
+	zone := normalizeZone(a.TimeZone)
 
-	// if !after.GreaterThan(a.Date) {
-	// 	return val_errors.WithAttribute(DateMustBeError, map[string]string{"date": a.Date.Format(a.Format)})
-	// }
+	compareTo, err := getComparableDate(a.Date, format, zone)
+	if err != nil {
+		return err
+	}
+
+	input, err := generateDate(value.String(), format, zone)
+	if err != nil {
+		return err
+	}
+
+	if !input.GreaterThanOrEqualTo(compareTo) {
+		return val_errors.WithAttributes(
+			DateMustBeAfterOrEqualError,
+			map[string]string{"date": compareTo.String(), "input_date": input.String()},
+		)
+	}
+
 	return nil
 }

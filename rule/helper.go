@@ -5,20 +5,37 @@ import (
 	"github.com/vigneshuvi/GoDateFormat"
 )
 
-func getComparableDate(date *carbon.Carbon, format, zone string) (string, error) {
+func getComparableDate(date *carbon.Carbon, format, zone string) (*carbon.Carbon, error) {
 	if date == nil {
-		return "", OptionDateIsRequired
+		return nil, OptionDateIsRequired
 	}
+	date, err := setFormatAndZone(date, format, zone)
+	if err != nil {
+		return nil, err
+	}
+	result, err := generateDate(date.String(), format, zone)
+	if err != nil {
+		return nil, err
+	}
+	return setFormatAndZone(result, format, zone)
+}
+
+func setFormatAndZone(date *carbon.Carbon, format string, zone string) (*carbon.Carbon, error) {
 	date.SetStringFormat(format)
 	err := date.SetTimeZone(zone)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return date.String(), nil
+	return date, nil
 }
 
-func normalizeDate(value string, format string, zone string) (*carbon.Carbon, error) {
-	return carbon.CreateFromFormat(format, value, zone)
+func generateDate(value string, format string, zone string) (*carbon.Carbon, error) {
+	date, err := carbon.CreateFromFormat(format, value, zone)
+	if err != nil {
+		return nil, err
+	}
+
+	return setFormatAndZone(date, format, zone)
 }
 
 func normalizeZone(zone string) string {

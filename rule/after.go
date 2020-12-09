@@ -15,7 +15,6 @@ type After struct {
 func (a After) Verify(value support.Value) error {
 	format := normalizeFormat(a.Format)
 	zone := normalizeZone(a.TimeZone)
-
 	compareTo, err := getComparableDate(a.Date, format, zone)
 	if err != nil {
 		return err

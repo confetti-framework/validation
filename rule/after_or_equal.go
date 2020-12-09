@@ -15,12 +15,10 @@ type AfterOrEqual struct {
 func (a AfterOrEqual) Verify(value support.Value) error {
 	format := normalizeFormat(a.Format)
 	zone := normalizeZone(a.TimeZone)
-
 	compareTo, err := getComparableDate(a.Date, format, zone)
 	if err != nil {
 		return err
 	}
-
 	input, err := generateDate(value.String(), format, zone)
 	if err != nil {
 		return err

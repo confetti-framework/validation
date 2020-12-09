@@ -13,6 +13,8 @@ var IsRequiredError = ValidationError.Wrap("the :attribute is required")
 var MustBeAcceptedError = ValidationError.Wrap("the :attribute must be accepted")
 var DateMustBeAfterError = ValidationError.Wrap("the :attribute must be after :date, :input_date given")
 var DateMustBeAfterOrEqualError = ValidationError.Wrap("the :attribute must be after or equal :date, :input_date given")
+var DateMustBeBeforeError = ValidationError.Wrap("the :attribute must be before :date, :input_date given")
+var DateMustBeBeforeOrEqualError = ValidationError.Wrap("the :attribute must be before or equal :date, :input_date given")
 
 // System Error
 var OptionDateIsRequired = errors.New("option Date is required")

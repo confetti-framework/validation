@@ -31,8 +31,9 @@ func Test_after_or_equal_tomorrow(t *testing.T) {
 
 func Test_after_or_equal_with_equal_date(t *testing.T) {
 	date := carbon.Now()
+	date.SetStringFormat(carbon.DefaultFormat)
 	value := support.NewValue(date.String())
-	err := rule.AfterOrEqual{Date: date}.Verify(value)
+	err := rule.AfterOrEqual{Date: date, Format: carbon.DefaultFormat}.Verify(value)
 	require.Nil(t, err)
 }
 
@@ -45,16 +46,16 @@ func Test_after_or_equal_not_after(t *testing.T) {
 
 func Test_after_or_equal_with_input_format(t *testing.T) {
 	input := carbon.Now()
-	input.SetStringFormat(carbon.HourMinuteFormat)
+	input.SetStringFormat(carbon.DateFormat)
 	value := support.NewValue(input.String())
 
 	err := rule.AfterOrEqual{
 		Date:   carbon.Now().AddDay(),
-		Format: carbon.HourMinuteFormat,
+		Format: carbon.DateFormat,
 	}.Verify(value)
 
 	require.NotNil(t, err)
-	require.Regexp(t, `the :attribute must be after or equal \d{2}:\d{2}`, err.Error())
+	require.Regexp(t, `the :attribute must be after or equal \d{4}-\d{2}-\d{2}, \d{4}-\d{2}-\d{2} given`, err.Error())
 }
 
 func Test_after_or_equal_with_clear_format(t *testing.T) {
@@ -63,13 +64,13 @@ func Test_after_or_equal_with_clear_format(t *testing.T) {
 	value := support.NewValue(input.String())
 
 	err := rule.AfterOrEqual{
-		Date:     carbon.Now().AddDay(),
+		Date:     carbon.Now().AddMinutes(2),
 		Format:   "HH:MM",
 		TimeZone: "UTC",
 	}.Verify(value)
 
 	require.NotNil(t, err)
-	require.Regexp(t, `the :attribute must be after or equal \d{2}:\d{2}`, err.Error())
+	require.Regexp(t, `the :attribute must be after or equal \d{2}:\d{2}, \d{2}:\d{2} given`, err.Error())
 }
 
 func Test_after_or_equal_with_timezone(t *testing.T) {

@@ -35,6 +35,13 @@ func WithAttribute(err error, key string, attribute string) error {
 	return &withAttribute{err, map[string]string{key: attribute}}
 }
 
+func WithAttributes(err error, attributes map[string]string) error {
+	if err == nil {
+		return nil
+	}
+	return &withAttribute{err, attributes}
+}
+
 type withAttribute struct {
 	cause      error
 	attributes map[string]string

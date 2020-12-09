@@ -16,18 +16,23 @@ func (a After) Verify(value support.Value) error {
 	format := normalizeFormat(a.Format)
 	zone := normalizeZone(a.TimeZone)
 
-	compareDate, err := normalizeCompareDate(a.Date, zone)
+	compareToRaw, err := getComparableDate(a.Date, format, zone)
+	if err != nil {
+		return err
+	}
+	inputRaw := value.String()
+
+	compareTo, err := normalizeDate(compareToRaw, format, zone)
+	if err != nil {
+		return err
+	}
+	input, err := normalizeDate(inputRaw, format, zone)
 	if err != nil {
 		return err
 	}
 
-	after, err := normalizeDate(value.String(), format, zone)
-	if err != nil {
-		return err
-	}
-
-	if !after.GreaterThan(compareDate) {
-		return val_errors.WithAttribute(DateMustBeAfterError, "date", compareDate.Format(format))
+	if !input.GreaterThan(compareTo) {
+		return val_errors.WithAttributes(DateMustBeAfterError, map[string]string{"date": compareToRaw, "input_date": inputRaw})
 	}
 
 	return nil

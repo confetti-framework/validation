@@ -25,7 +25,7 @@ func Test_before_field_no_options(t *testing.T) {
 
 func Test_before_tomorrow(t *testing.T) {
 	value := support.NewValue(carbon.Now().String())
-	err := rule.Before{Date: carbon.Now().SubDay()}.Verify(value)
+	err := rule.Before{Date: carbon.Now().AddDay()}.Verify(value)
 	require.Nil(t, err)
 }
 
@@ -39,7 +39,7 @@ func Test_before_but_equal(t *testing.T) {
 
 func Test_before_not_before(t *testing.T) {
 	value := support.NewValue(carbon.Now().String())
-	err := rule.Before{Date: carbon.Now().AddDay()}.Verify(value)
+	err := rule.Before{Date: carbon.Now().SubDay()}.Verify(value)
 	require.NotNil(t, err)
 	require.Regexp(t, `the :attribute must be before \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}`, err.Error())
 }
@@ -79,7 +79,7 @@ func Test_before_with_timezone(t *testing.T) {
 	value := support.NewValue(input.String())
 
 	err := rule.Before{
-		Date:     carbon.Now().AddSeconds(5),
+		Date:     carbon.Now().SubSeconds(5),
 		TimeZone: "UTC",
 	}.Verify(value)
 

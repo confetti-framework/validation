@@ -27,7 +27,7 @@ func (a After) Verify(value support.Value) error {
 	if !input.GreaterThan(compareTo) {
 		return val_errors.WithAttributes(
 			DateMustBeAfterError,
-			map[string]string{"date": compareTo.String(), "input_date": input.String()},
+			map[string]string{"date": compareTo.String(), "input": input.String()},
 		)
 	}
 

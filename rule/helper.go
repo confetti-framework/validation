@@ -1,6 +1,7 @@
 package rule
 
 import (
+	"github.com/lanvard/support"
 	"github.com/uniplaces/carbon"
 	"github.com/vigneshuvi/GoDateFormat"
 )
@@ -30,6 +31,11 @@ func setFormatAndZone(date *carbon.Carbon, format string, zone string) (*carbon.
 }
 
 func generateDate(value string, format string, zone string) (*carbon.Carbon, error) {
+	err := Date{Format: format}.Verify(support.NewValue(value))
+	if err != nil {
+		return nil, err
+	}
+
 	date, err := carbon.CreateFromFormat(format, value, zone)
 	if err != nil {
 		return nil, err

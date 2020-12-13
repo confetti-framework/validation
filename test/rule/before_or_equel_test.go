@@ -20,7 +20,7 @@ func Test_before_or_equal_or_equal_field_not_present(t *testing.T) {
 func Test_before_or_equal_field_no_options(t *testing.T) {
 	value := support.NewValue("2021")
 	err := rule.BeforeOrEqual{}.Verify(value)
-	require.EqualError(t, err, "option Date is required")
+	require.EqualError(t, err, "can't validate rule.BeforeOrEqual: option Date is required")
 }
 
 func Test_before_or_equal_tomorrow(t *testing.T) {

@@ -20,7 +20,7 @@ func Test_after_or_equal_or_equal_field_not_present(t *testing.T) {
 func Test_after_or_equal_field_no_options(t *testing.T) {
 	value := support.NewValue("2021")
 	err := rule.AfterOrEqual{}.Verify(value)
-	require.EqualError(t, err, "option Date is required")
+	require.EqualError(t, err, "can't validate rule.AfterOrEqual: option Date is required")
 }
 
 func Test_after_or_equal_tomorrow(t *testing.T) {
@@ -85,4 +85,10 @@ func Test_after_or_equal_with_timezone(t *testing.T) {
 
 	require.NotNil(t, err)
 	require.Contains(t, err.Error(), `the :attribute must be after or equal`)
+}
+
+func Test_after_or_equal_invalid_date(t *testing.T) {
+	value := support.NewValue("2021")
+	err := rule.AfterOrEqual{Date: carbon.Now()}.Verify(value)
+	require.Regexp(t, "the :attribute is not a valid date \\(example \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\), 2021 given", err.Error())
 }

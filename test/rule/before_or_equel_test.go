@@ -41,7 +41,7 @@ func Test_before_or_equal_not_before(t *testing.T) {
 	value := support.NewValue(carbon.Now().AddDay().String())
 	err := rule.BeforeOrEqual{Date: carbon.Now()}.Verify(value)
 	require.NotNil(t, err)
-	require.Regexp(t, `the :attribute must be before or equal \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}`, err.Error())
+	require.Regexp(t, `the :attribute must be before or equal to \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}`, err.Error())
 }
 
 func Test_before_or_equal_with_input_format(t *testing.T) {
@@ -55,7 +55,7 @@ func Test_before_or_equal_with_input_format(t *testing.T) {
 	}.Verify(value)
 
 	require.NotNil(t, err)
-	require.Regexp(t, `the :attribute must be before or equal \d{4}-\d{2}-\d{2}, \d{4}-\d{2}-\d{2} given`, err.Error())
+	require.Regexp(t, `the :attribute must be before or equal to \d{4}-\d{2}-\d{2}, \d{4}-\d{2}-\d{2} given`, err.Error())
 }
 
 func Test_before_or_equal_with_clear_format(t *testing.T) {
@@ -70,7 +70,7 @@ func Test_before_or_equal_with_clear_format(t *testing.T) {
 	}.Verify(value)
 
 	require.NotNil(t, err)
-	require.Regexp(t, `the :attribute must be before or equal \d{2}:\d{2}, \d{2}:\d{2} given`, err.Error())
+	require.Regexp(t, `the :attribute must be before or equal to \d{2}:\d{2}, \d{2}:\d{2} given`, err.Error())
 }
 
 func Test_before_or_equal_with_timezone(t *testing.T) {

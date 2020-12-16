@@ -19,7 +19,7 @@ func (b Boolean) Verify(value support.Value) error {
 	}
 
 	return val_errors.WithAttributes(
-		MuseBeABoolean,
+		MuseBeABooleanError,
 		map[string]string{"input": input},
 	)
 }

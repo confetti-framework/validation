@@ -31,7 +31,7 @@ func Test_date_with_valid_default_date(t *testing.T) {
 
 func Test_date_with_valid_input_format(t *testing.T) {
 	input := carbon.Now()
-	input.SetStringFormat("04:05")
+	input.SetStringFormat("15:04")
 	value := support.NewValue(input.String())
 
 	err := rule.Date{

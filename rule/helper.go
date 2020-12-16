@@ -8,7 +8,7 @@ import (
 
 func getComparableDate(date *carbon.Carbon, format, zone string) (*carbon.Carbon, error) {
 	if date == nil {
-		return nil, OptionDateIsRequired
+		return nil, OptionDateIsRequiredError
 	}
 	date, err := setFormatAndZone(date, format, zone)
 	if err != nil {

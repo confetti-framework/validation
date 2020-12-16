@@ -17,7 +17,10 @@ var DateMustBeBeforeError = ValidationError.Wrap("the :attribute must be before 
 var DateMustBeBeforeOrEqualError = ValidationError.Wrap("the :attribute must be before or equal to :date, :input given")
 var DateMustBeEqualError = ValidationError.Wrap("the :attribute must be equal to :date, :input given")
 var DateNotValidFormatError = ValidationError.Wrap("the :attribute is not a valid date (example :example), :input given")
-var MuseBeABoolean = ValidationError.Wrap("the :attribute must be a boolean, :input given")
+var MuseBeABooleanError = ValidationError.Wrap("the :attribute must be a boolean, :input given")
+var MuseEndWithError = ValidationError.Wrap("the :attribute must end with :expect, :input given")
+var MustHaveAValue = ValidationError.Wrap("the :attribute field must have a value")
 
 // System Error
-var OptionDateIsRequired = errors.New("option Date is required")
+var OptionDateIsRequiredError = errors.New("option Date is required")
+var OptionWithIsRequiredError = errors.New("option With is required")

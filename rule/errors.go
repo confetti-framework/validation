@@ -21,6 +21,8 @@ var MuseBeABooleanError = ValidationError.Wrap("the :attribute must be a boolean
 var MuseEndWithError = ValidationError.Wrap("the :attribute must end with :expect, :input given")
 var MustHaveAValue = ValidationError.Wrap("the :attribute field must have a value")
 var SelectedIsInvalid = ValidationError.Wrap("the selected :attribute is invalid")
+var MustBeAnInteger = ValidationError.Wrap("the :attribute must be an integer")
+
 
 // System Error
 var OptionDateIsRequiredError = errors.New("option Date is required")

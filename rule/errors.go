@@ -22,7 +22,8 @@ var MuseEndWithError = ValidationError.Wrap("the :attribute must end with :expec
 var MustHaveAValue = ValidationError.Wrap("the :attribute field must have a value")
 var SelectedIsInvalid = ValidationError.Wrap("the selected :attribute is invalid")
 var MustBeAnInteger = ValidationError.Wrap("the :attribute must be an integer")
-
+var MayNotBeGreaterThanError = ValidationError.Wrap("the :attribute may not be greater than :expect, :input given")
+var MayNotHaveMoreThanItemsError = ValidationError.Wrap("the :attribute may not have more than :expect items, :input items given")
 
 // System Error
 var OptionDateIsRequiredError = errors.New("option Date is required")

@@ -9,7 +9,7 @@ import (
 )
 
 func Test_required_and_present(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]string{"age": "60"}),
 		val.Verify("age", rule.Required{}),
 	)
@@ -17,7 +17,7 @@ func Test_required_and_present(t *testing.T) {
 }
 
 func Test_required_and_not_present(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(nil),
 		val.Verify("name", rule.Required{}),
 	)
@@ -25,7 +25,7 @@ func Test_required_and_not_present(t *testing.T) {
 }
 
 func Test_required_and_present_but_empty(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]string{"age": ""}),
 		val.Verify("age", rule.Required{}),
 	)

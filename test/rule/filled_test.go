@@ -9,7 +9,7 @@ import (
 )
 
 func Test_filled_and_present(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]string{"age": "60"}),
 		val.Verify("age", rule.Filled{}),
 	)
@@ -17,7 +17,7 @@ func Test_filled_and_present(t *testing.T) {
 }
 
 func Test_filled_and_not_present(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(nil),
 		val.Verify("name", rule.Filled{}),
 	)
@@ -25,7 +25,7 @@ func Test_filled_and_not_present(t *testing.T) {
 }
 
 func Test_filled_and_present_but_empty(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]string{"age": ""}),
 		val.Verify("age", rule.Filled{}),
 	)
@@ -33,7 +33,7 @@ func Test_filled_and_present_but_empty(t *testing.T) {
 }
 
 func Test_filled_and_present_but_empty_slice(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]interface{}{"names": []string{}}),
 		val.Verify("names", rule.Filled{}),
 	)

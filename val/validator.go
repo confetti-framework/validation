@@ -8,7 +8,7 @@ import (
 	"github.com/lanvard/validation/val_errors"
 )
 
-func Validate(input interface{}, verifications ...Verification) []error {
+func Validate(app inter.AppReader, input interface{}, verifications ...Verification) []error {
 	result := []error{}
 	value, err := support.NewValueE(input)
 	if err != nil {

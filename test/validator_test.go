@@ -13,12 +13,12 @@ import (
 )
 
 func Test_validate_nothing(t *testing.T) {
-	errs := val.Validate(support.NewValue(nil))
+	errs := val.Validate(nil, support.NewValue(nil))
 	require.Equal(t, []error{}, errs)
 }
 
 func Test_validate_nothing_with_empty_verification(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		support.NewValue(nil),
 		val.Verify("title"),
 	)
@@ -26,7 +26,7 @@ func Test_validate_nothing_with_empty_verification(t *testing.T) {
 }
 
 func Test_validate_nothing_with_empty_verifications(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		support.NewValue(nil),
 		val.Verify("title"),
 		val.Verify("description"),
@@ -35,7 +35,7 @@ func Test_validate_nothing_with_empty_verifications(t *testing.T) {
 }
 
 func Test_validate_with_multiple_verifications(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		support.NewValue(map[string]string{"title": "Horse", "description": "Big animal"}),
 		val.Verify("title"),
 		val.Verify("description"),
@@ -44,7 +44,7 @@ func Test_validate_with_multiple_verifications(t *testing.T) {
 }
 
 func Test_validate_with_multiple_invalid_keys(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		support.NewValue(map[string]string{}),
 		val.Verify("title", rule.Required{}),
 		val.Verify("description", rule.Required{}),
@@ -53,7 +53,7 @@ func Test_validate_with_multiple_invalid_keys(t *testing.T) {
 }
 
 func Test_validate_invalid_values_with_multiple_rules(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		support.NewValue(nil),
 		val.Verify("title", rule.Present{}, rule.Required{}),
 	)
@@ -62,7 +62,7 @@ func Test_validate_invalid_values_with_multiple_rules(t *testing.T) {
 }
 
 func Test_validate_nested_key_error(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		support.NewValue(map[string]string{}),
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -70,7 +70,7 @@ func Test_validate_nested_key_error(t *testing.T) {
 }
 
 func Test_validate_map(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -78,7 +78,7 @@ func Test_validate_map(t *testing.T) {
 }
 
 func Test_validate_gives_non_validation_error(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{"user": "Jip"},
 		val.Verify("user", mockRuleWithNonValidationError{}),
 	)
@@ -86,7 +86,7 @@ func Test_validate_gives_non_validation_error(t *testing.T) {
 }
 
 func Test_error_has_stack_trace(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -96,7 +96,7 @@ func Test_error_has_stack_trace(t *testing.T) {
 }
 
 func Test_normal_rule_not_required(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		nil,
 		val.Verify("title", mockRuleNotRequired{}),
 	)
@@ -104,7 +104,7 @@ func Test_normal_rule_not_required(t *testing.T) {
 }
 
 func Test_validation_error_status(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -113,7 +113,7 @@ func Test_validation_error_status(t *testing.T) {
 }
 
 func Test_validation_log_level(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)

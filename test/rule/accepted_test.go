@@ -9,7 +9,7 @@ import (
 )
 
 func Test_accepted_field_not_present(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		nil,
 		val.Verify("title", rule.Accepted{}),
 	)
@@ -18,7 +18,7 @@ func Test_accepted_field_not_present(t *testing.T) {
 }
 
 func Test_accepted_field_present_but_empty_string(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{"title": ""},
 		val.Verify("title", rule.Accepted{}),
 	)
@@ -27,7 +27,7 @@ func Test_accepted_field_present_but_empty_string(t *testing.T) {
 }
 
 func Test_accepted_field_present_with_string_yes(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{"title": "yes"},
 		val.Verify("title", rule.Accepted{}),
 	)
@@ -35,7 +35,7 @@ func Test_accepted_field_present_with_string_yes(t *testing.T) {
 }
 
 func Test_accepted_field_present_with_string_on(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		map[string]string{"title": "on"},
 		val.Verify("title", rule.Accepted{}),
 	)

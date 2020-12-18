@@ -10,7 +10,7 @@ import (
 )
 
 func Test_date_equal_or_equal_field_not_present(t *testing.T) {
-	errs := val.Validate(
+	errs := val.Validate(nil,
 		nil,
 		val.Verify("start_date", rule.DateEqual{}),
 	)

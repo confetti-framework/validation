@@ -9,7 +9,7 @@ import (
 )
 
 func Test_present(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]string{"age": "60"}),
 		val.Verify("age", rule.Present{}),
 	)
@@ -17,7 +17,7 @@ func Test_present(t *testing.T) {
 }
 
 func Test_not_present(t *testing.T) {
-	errors := val.Validate(
+	errors := val.Validate(nil,
 		support.NewValue(map[string]string{"age": "60"}),
 		val.Verify("name", rule.Present{}),
 	)

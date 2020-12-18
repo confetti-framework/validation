@@ -2,6 +2,8 @@ package rule
 
 import (
 	"github.com/lanvard/support"
+	"github.com/lanvard/validation/val_errors"
+	"github.com/spf13/cast"
 	"github.com/uniplaces/carbon"
 	"github.com/vigneshuvi/GoDateFormat"
 )
@@ -57,4 +59,14 @@ func normalizeFormat(format string) string {
 	}
 
 	return GoDateFormat.ConvertFormat(format)
+}
+
+func errorWithExpectInput(err error, expect interface{}, input interface{}) error {
+	return val_errors.WithAttributes(
+		err,
+		map[string]string{
+			"expect": cast.ToString(expect),
+			"input":  cast.ToString(input),
+		},
+	)
 }

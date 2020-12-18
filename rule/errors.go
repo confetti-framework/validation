@@ -3,8 +3,6 @@ package rule
 import (
 	"github.com/lanvard/errors"
 	"github.com/lanvard/syslog/log_level"
-	"github.com/lanvard/validation/val_errors"
-	"github.com/spf13/cast"
 	net "net/http"
 )
 
@@ -32,13 +30,3 @@ var MustBeContainItemsError = ValidationError.Wrap("the :attribute must contain 
 // System Error
 var OptionDateIsRequiredError = errors.New("option Date is required")
 var OptionWithIsRequiredError = errors.New("option With is required")
-
-func errorWithExpectInput(err error, expect interface{}, input interface{}) error {
-	return val_errors.WithAttributes(
-		err,
-		map[string]string{
-			"expect": cast.ToString(expect),
-			"input":  cast.ToString(input),
-		},
-	)
-}

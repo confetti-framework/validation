@@ -24,6 +24,8 @@ var SelectedIsInvalid = ValidationError.Wrap("the selected :attribute is invalid
 var MustBeAnInteger = ValidationError.Wrap("the :attribute must be an integer")
 var MayNotBeGreaterThanError = ValidationError.Wrap("the :attribute may not be greater than :expect, :input given")
 var MayNotHaveMoreThanItemsError = ValidationError.Wrap("the :attribute may not have more than :expect items, :input items given")
+var MustBeAtLeastThanError = ValidationError.Wrap("the :attribute must be at least :expect, :input given")
+var MustBeAtLeastThanItemsError = ValidationError.Wrap("the :attribute must be at least :expect items, :input items given")
 var MustBeError = ValidationError.Wrap("the :attribute must be :expect, :input given")
 var MustBeContainItemsError = ValidationError.Wrap("the :attribute must contain :expect items, :input items given")
 

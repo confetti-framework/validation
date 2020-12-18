@@ -3,6 +3,8 @@ package rule
 import (
 	"github.com/lanvard/errors"
 	"github.com/lanvard/syslog/log_level"
+	"github.com/lanvard/validation/val_errors"
+	"github.com/spf13/cast"
 	net "net/http"
 )
 
@@ -24,7 +26,19 @@ var SelectedIsInvalid = ValidationError.Wrap("the selected :attribute is invalid
 var MustBeAnInteger = ValidationError.Wrap("the :attribute must be an integer")
 var MayNotBeGreaterThanError = ValidationError.Wrap("the :attribute may not be greater than :expect, :input given")
 var MayNotHaveMoreThanItemsError = ValidationError.Wrap("the :attribute may not have more than :expect items, :input items given")
+var MustBeError = ValidationError.Wrap("the :attribute must be :expect, :input given")
+var MustBeContainItemsError = ValidationError.Wrap("the :attribute must contain :expect items, :input items given")
 
 // System Error
 var OptionDateIsRequiredError = errors.New("option Date is required")
 var OptionWithIsRequiredError = errors.New("option With is required")
+
+func errorWithExpectInput(err error, expect interface{}, input interface{}) error {
+	return val_errors.WithAttributes(
+		err,
+		map[string]string{
+			"expect": cast.ToString(expect),
+			"input":  cast.ToString(input),
+		},
+	)
+}

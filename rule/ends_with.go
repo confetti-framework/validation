@@ -2,7 +2,6 @@ package rule
 
 import (
 	"github.com/lanvard/support"
-	"github.com/lanvard/validation/val_errors"
 	"strings"
 )
 
@@ -24,11 +23,5 @@ func (e Ends) Verify(value support.Value) error {
 			return nil
 		}
 	}
-	return val_errors.WithAttributes(
-		MuseEndWithError,
-		map[string]string{
-			"expect": strings.Join(e.with, " or "),
-			"input":  value.String(),
-		},
-	)
+	return errorWithExpectInput(MuseEndWithError, strings.Join(e.with, " or "), value.String())
 }

@@ -63,7 +63,7 @@ func getAllRequiredRules(verification Verification) []inter.Rule {
 	var result []inter.Rule
 	for _, baseRule := range verification.Rules {
 		if baseRule, ok := baseRule.(inter.RuleWithRequirements); ok {
-			result = append(result, baseRule.Require()...)
+			result = append(result, baseRule.Requirements()...)
 		}
 
 		result = append(result, baseRule)

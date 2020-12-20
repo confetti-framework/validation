@@ -7,7 +7,7 @@ import (
 
 type Present struct{}
 
-func (p Present) Require() []inter.Rule {
+func (p Present) Requirements() []inter.Rule {
 	return []inter.Rule{
 		Present{},
 	}

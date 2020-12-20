@@ -19,6 +19,7 @@ var DateMustBeEqualError = ValidationError.Wrap("the :attribute must be equal to
 var DateNotValidFormatError = ValidationError.Wrap("the :attribute is not a valid date (example :example), :input given")
 var MuseBeABooleanError = ValidationError.Wrap("the :attribute must be a boolean, :input given")
 var MuseEndWithError = ValidationError.Wrap("the :attribute must end with :expect, :input given")
+var MuseStartWithError = ValidationError.Wrap("the :attribute must start with :expect, :input given")
 var MustHaveAValue = ValidationError.Wrap("the :attribute field must have a value")
 var SelectedIsInvalid = ValidationError.Wrap("the selected :attribute is invalid")
 var MustBeAnInteger = ValidationError.Wrap("the :attribute must be an integer")

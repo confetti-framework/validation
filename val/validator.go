@@ -15,6 +15,7 @@ func Validate(app inter.AppReader, input interface{}, verifications ...Verificat
 		return append(result, err)
 	}
 	for _, verification := range verifications {
+		verification.app = app
 		result = append(result, verifyVerification(value, verification)...)
 	}
 	return result
@@ -68,6 +69,20 @@ func getAllRequiredRules(verification Verification) []inter.Rule {
 
 		result = append(result, baseRule)
 	}
+	result = setAppOnRules(result, verification.app)
+
+	return result
+}
+
+func setAppOnRules(rules []inter.Rule, app inter.AppReader) []inter.Rule {
+	var result []inter.Rule
+	for _, rule := range rules {
+		if withApp, ok := rule.(inter.RuleWithApp); ok {
+			rule = withApp.SetApp(app)
+		}
+		result = append(result, rule)
+	}
+
 	return result
 }
 

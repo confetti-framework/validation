@@ -2,6 +2,7 @@ package test
 
 import (
 	"fmt"
+	"github.com/lanvard/contract/inter"
 	"github.com/lanvard/errors"
 	"github.com/lanvard/support"
 	"github.com/lanvard/syslog/log_level"
@@ -13,12 +14,14 @@ import (
 )
 
 func Test_validate_nothing(t *testing.T) {
-	errs := val.Validate(nil, support.NewValue(nil))
+	errs := val.Validate(
+		nil, support.NewValue(nil))
 	require.Equal(t, []error{}, errs)
 }
 
 func Test_validate_nothing_with_empty_verification(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		support.NewValue(nil),
 		val.Verify("title"),
 	)
@@ -26,7 +29,8 @@ func Test_validate_nothing_with_empty_verification(t *testing.T) {
 }
 
 func Test_validate_nothing_with_empty_verifications(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		support.NewValue(nil),
 		val.Verify("title"),
 		val.Verify("description"),
@@ -35,7 +39,8 @@ func Test_validate_nothing_with_empty_verifications(t *testing.T) {
 }
 
 func Test_validate_with_multiple_verifications(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		support.NewValue(map[string]string{"title": "Horse", "description": "Big animal"}),
 		val.Verify("title"),
 		val.Verify("description"),
@@ -44,7 +49,8 @@ func Test_validate_with_multiple_verifications(t *testing.T) {
 }
 
 func Test_validate_with_multiple_invalid_keys(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		support.NewValue(map[string]string{}),
 		val.Verify("title", rule.Required{}),
 		val.Verify("description", rule.Required{}),
@@ -53,7 +59,8 @@ func Test_validate_with_multiple_invalid_keys(t *testing.T) {
 }
 
 func Test_validate_invalid_values_with_multiple_rules(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		support.NewValue(nil),
 		val.Verify("title", rule.Present{}, rule.Required{}),
 	)
@@ -62,7 +69,8 @@ func Test_validate_invalid_values_with_multiple_rules(t *testing.T) {
 }
 
 func Test_validate_nested_key_error(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		support.NewValue(map[string]string{}),
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -70,7 +78,8 @@ func Test_validate_nested_key_error(t *testing.T) {
 }
 
 func Test_validate_map(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -78,7 +87,8 @@ func Test_validate_map(t *testing.T) {
 }
 
 func Test_validate_gives_non_validation_error(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		map[string]string{"user": "Jip"},
 		val.Verify("user", mockRuleWithNonValidationError{}),
 	)
@@ -86,7 +96,8 @@ func Test_validate_gives_non_validation_error(t *testing.T) {
 }
 
 func Test_error_has_stack_trace(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -96,7 +107,8 @@ func Test_error_has_stack_trace(t *testing.T) {
 }
 
 func Test_normal_rule_not_required(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		nil,
 		val.Verify("title", mockRuleNotRequired{}),
 	)
@@ -104,7 +116,8 @@ func Test_normal_rule_not_required(t *testing.T) {
 }
 
 func Test_validation_error_status(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -113,7 +126,8 @@ func Test_validation_error_status(t *testing.T) {
 }
 
 func Test_validation_log_level(t *testing.T) {
-	errs := val.Validate(nil,
+	errs := val.Validate(
+		nil,
 		map[string]string{},
 		val.Verify("user.title", rule.Present{}),
 	)
@@ -121,14 +135,51 @@ func Test_validation_log_level(t *testing.T) {
 	require.Equal(t, log_level.INFO, level)
 }
 
+func Test_validation_with_application(t *testing.T) {
+	errs := val.Validate(
+		mockApp{},
+		map[string]int{"title": 12},
+		val.Verify("title", mockRuleApplicationNeeded{}),
+	)
+	require.Empty(t, errs)
+}
+
+// Mock rule not required
 type mockRuleNotRequired struct{}
 
 func (m mockRuleNotRequired) Verify(value support.Value) error {
 	return errors.New("don't show this error if value not present")
 }
 
+// Mock rule with non validation error
 type mockRuleWithNonValidationError struct{}
 
 func (m mockRuleWithNonValidationError) Verify(value support.Value) error {
 	return errors.New("option Date is required")
+}
+
+// Mock rule where application is needed
+type mockRuleApplicationNeeded struct {
+	app inter.AppReader
+}
+
+func (m mockRuleApplicationNeeded) SetApp(app inter.AppReader) inter.Rule {
+	m.app = app
+	return m
+}
+
+func (m mockRuleApplicationNeeded) Verify(value support.Value) error {
+	_, err := m.app.MakeE("the_value")
+	return err
+}
+
+// A mocked application reader
+type mockApp struct{}
+
+func (a mockApp) Make(abstract interface{}) interface{} {
+	return "The horse"
+}
+
+func (a mockApp) MakeE(_ interface{}) (interface{}, error) {
+	return "The horse", nil
 }

@@ -7,6 +7,7 @@ import (
 type Verification struct {
 	Field string
 	Rules []inter.Rule
+	app   inter.AppReader
 }
 
 func Verify(field string, rules ...inter.Rule) Verification {

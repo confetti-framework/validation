@@ -39,4 +39,3 @@ func Test_filled_and_present_but_empty_slice(t *testing.T) {
 	)
 	require.EqualError(t, errors[0], "the names field must have a value")
 }
-

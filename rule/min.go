@@ -19,7 +19,7 @@ func (m Min) Verify(value support.Value) error {
 }
 
 func (m Min) getError(input interface{}) error {
-	switch support.Type(input) {
+	switch support.Kind(input) {
 	case reflect.Slice, reflect.Map, reflect.Array:
 		return MustBeAtLeastThanItemsError
 	default:

@@ -20,7 +20,7 @@ func (s Size) Verify(value support.Value) error {
 }
 
 func getAmount(input interface{}) int {
-	switch support.Type(input) {
+	switch support.Kind(input) {
 	case reflect.Slice, reflect.Map, reflect.Array:
 		return reflect.ValueOf(input).Len()
 	default:
@@ -29,7 +29,7 @@ func getAmount(input interface{}) int {
 }
 
 func (s Size) getError(input interface{}) error {
-	switch support.Type(input) {
+	switch support.Kind(input) {
 	case reflect.Slice, reflect.Map, reflect.Array:
 		return MustBeContainItemsError
 	default:

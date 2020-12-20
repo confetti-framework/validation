@@ -28,6 +28,8 @@ var MustBeAtLeastThanError = ValidationError.Wrap("the :attribute must be at lea
 var MustBeAtLeastThanItemsError = ValidationError.Wrap("the :attribute must be at least :expect items, :input items given")
 var MustBeError = ValidationError.Wrap("the :attribute must be :expect, :input given")
 var MustBeContainItemsError = ValidationError.Wrap("the :attribute must contain :expect items, :input items given")
+var MustBeASlice = ValidationError.Wrap("the :attribute must be a slice")
+var MustBeAMap = ValidationError.Wrap("the :attribute must be a map")
 
 // System Error
 var OptionDateIsRequiredError = errors.New("option Date is required")

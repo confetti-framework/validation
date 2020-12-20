@@ -10,7 +10,7 @@ type Map struct{}
 func (m Map) Verify(value support.Value) error {
 	kind := support.Kind(value.Raw())
 	if kind != reflect.Map {
-		return MustBeAMap
+		return MustBeAMapError
 	}
 	return nil
 }

@@ -17,11 +17,10 @@ func (i In) Verify(value support.Value) error {
 			return nil
 		}
 	}
-	return SelectedIsInvalid
+	return SelectedIsInvalidError
 }
 
 func (i In) With(with ...interface{}) In {
 	i.with = with
 	return i
 }
-

@@ -10,7 +10,7 @@ type Slice struct{}
 func (s Slice) Verify(value support.Value) error {
 	kind := support.Kind(value.Raw())
 	if kind != reflect.Array && kind != reflect.Slice {
-		return MustBeASlice
+		return MustBeASliceError
 	}
 	return nil
 }

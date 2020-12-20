@@ -15,5 +15,5 @@ func (i IntegerAble) Verify(value support.Value) error {
 		}
 	}
 
-	return MustBeAnInteger
+	return MustBeAnIntegerError
 }

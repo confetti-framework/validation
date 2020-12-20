@@ -12,7 +12,7 @@ func (i Integer) Verify(value support.Value) error {
 		return MustBeAnInteger
 	}
 
-	_, err := value.NumberE()
+	_, err := value.IntE()
 	if err != nil {
 		return MustBeAnInteger
 	}

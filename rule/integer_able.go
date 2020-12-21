@@ -1,7 +1,7 @@
 package rule
 
 import (
-	"github.com/lanvard/support"
+	"github.com/confetti-framework/support"
 )
 
 type IntegerAble struct{}

@@ -1,11 +1,11 @@
 package val
 
 import (
-	"github.com/lanvard/contract/inter"
-	"github.com/lanvard/errors"
-	"github.com/lanvard/support"
-	rules "github.com/lanvard/validation/rule"
-	"github.com/lanvard/validation/val_errors"
+	"github.com/confetti-framework/contract/inter"
+	"github.com/confetti-framework/errors"
+	"github.com/confetti-framework/support"
+	rules "github.com/confetti-framework/validation/rule"
+	"github.com/confetti-framework/validation/val_errors"
 )
 
 func Validate(app inter.AppReader, input interface{}, verifications ...Verification) []error {

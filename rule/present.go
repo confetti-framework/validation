@@ -1,8 +1,8 @@
 package rule
 
 import (
-	"github.com/lanvard/contract/inter"
-	"github.com/lanvard/support"
+	"github.com/confetti-framework/contract/inter"
+	"github.com/confetti-framework/support"
 )
 
 type Present struct{}

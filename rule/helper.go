@@ -1,8 +1,8 @@
 package rule
 
 import (
-	"github.com/lanvard/support"
-	"github.com/lanvard/validation/val_errors"
+	"github.com/confetti-framework/support"
+	"github.com/confetti-framework/validation/val_errors"
 	"github.com/spf13/cast"
 	"github.com/uniplaces/carbon"
 	"github.com/vigneshuvi/GoDateFormat"

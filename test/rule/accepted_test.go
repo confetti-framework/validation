@@ -2,8 +2,8 @@ package rule
 
 import (
 	"errors"
-	"github.com/lanvard/validation/rule"
-	"github.com/lanvard/validation/val"
+	"github.com/confetti-framework/validation/rule"
+	"github.com/confetti-framework/validation/val"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

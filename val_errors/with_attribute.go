@@ -2,7 +2,7 @@ package val_errors
 
 import (
 	"fmt"
-	"github.com/lanvard/errors"
+	"github.com/confetti-framework/errors"
 	"strings"
 )
 

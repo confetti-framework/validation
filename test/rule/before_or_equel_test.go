@@ -1,9 +1,9 @@
 package rule
 
 import (
-	"github.com/lanvard/support"
-	"github.com/lanvard/validation/rule"
-	"github.com/lanvard/validation/val"
+	"github.com/confetti-framework/support"
+	"github.com/confetti-framework/validation/rule"
+	"github.com/confetti-framework/validation/val"
 	"github.com/stretchr/testify/require"
 	"github.com/uniplaces/carbon"
 	"testing"

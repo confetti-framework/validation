@@ -1,7 +1,7 @@
 package val
 
 import (
-	"github.com/lanvard/contract/inter"
+	"github.com/confetti-framework/contract/inter"
 )
 
 type Verification struct {

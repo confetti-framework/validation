@@ -58,5 +58,5 @@ func Test_empty_input(t *testing.T) {
 		InArray().
 		Verify(value)
 
-	require.Nil(t, err)
+	require.Equal(t, "the :attribute field does not exist in :other", err.Error())
 }

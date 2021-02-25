@@ -9,8 +9,7 @@ type InArray struct {
 	err     error
 }
 
-/* Receives slice of interface
-**/
+// Receives slice of interface
 func (i InArray) InArray(values ...interface{}) InArray {
 	i.inArray = values
 	return i

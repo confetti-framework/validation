@@ -8,7 +8,7 @@ import (
 
 type Regex struct {
 	Expression *regexp.Regexp
-	Error      error
+	err        error
 }
 
 // Compiles Regular expression
@@ -17,14 +17,14 @@ func (r Regex) Match(exp string) Regex {
 	var err error
 
 	r.Expression, err = regexp.Compile(exp)
-	r.Error = err
+	r.err = err
 
 	return r
 }
 
 func (r Regex) Verify(value support.Value) error {
 	// Error compiling the regex
-	if r.Error != nil {
+	if r.err != nil {
 		return MustCompileRegexError
 	}
 	if ok := r.Expression.MatchString(value.String()); !ok {

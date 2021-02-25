@@ -16,9 +16,8 @@ func (i InArray) InArray(values ...interface{}) InArray {
 	return i
 }
 
-/* Compare each slice item with the searched value
- * All of them in interface
-**/
+// Compare each slice item with the searched value
+// All of them in interface
 func (i InArray) Verify(value support.Value) error {
 	for _, val := range i.inArray {
 		if value.Source() == val {

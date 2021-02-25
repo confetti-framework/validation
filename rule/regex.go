@@ -12,7 +12,7 @@ type Regex struct {
 }
 
 // Compiles Regular expression
-// Returns error if given Expression is invalid
+// Returns error in Verify() if given Expression is invalid
 func (r Regex) Match(exp string) Regex {
 	var err error
 

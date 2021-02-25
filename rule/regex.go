@@ -29,7 +29,6 @@ func (r Regex) Verify(value support.Value) error {
 		//return r.Error
 	}
 	if ok := r.Expression.MatchString(value.String()); !ok {
-		//return fmt.Errorf("format invalid")
 		return MustMatchRegexError
 	}
 	return nil

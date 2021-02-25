@@ -26,7 +26,6 @@ func (r Regex) Verify(value support.Value) error {
 	// Error compiling the regex
 	if r.Error != nil {
 		return MustCompileRegexError
-		//return r.Error
 	}
 	if ok := r.Expression.MatchString(value.String()); !ok {
 		return MustMatchRegexError

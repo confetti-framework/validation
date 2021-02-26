@@ -10,7 +10,7 @@ type InArray struct {
 }
 
 // Receives slice of interface
-func (i InArray) InArray(values ...interface{}) InArray {
+func (i InArray) Array(values ...interface{}) InArray {
 	i.inArray = values
 	return i
 }

@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/confetti-framework/validation/branch/main/graph/badge.svg?token=JWQJH4R1SF)](https://codecov.io/gh/confetti-framework/validation)
+
 # Validation
 Use this repository to validate your data.
 

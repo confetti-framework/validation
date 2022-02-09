@@ -3,7 +3,7 @@
 # Validation
 Use this repository to validate your data.
 
-https://confetti-framework.github.io/docs/docs/the-basics/validation.html
+https://confetti-framework.github.io/docs/the-basics/validation.html
 
 ## License
 

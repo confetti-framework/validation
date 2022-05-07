@@ -32,6 +32,9 @@ var MustBeContainItemsError = ValidationError.Wrap("the :attribute must contain 
 var MustBeASliceError = ValidationError.Wrap("the :attribute must be a slice")
 var MustBeAStringError = ValidationError.Wrap("the :attribute must be a string")
 var MustBeAMapError = ValidationError.Wrap("the :attribute must be a map")
+var MustCompileRegexError = ValidationError.Wrap("the :expect isn't a valid regex")
+var MustMatchRegexError = ValidationError.Wrap("the :attribute format is invalid")
+var MustBeInArrayError = ValidationError.Wrap("the :attribute field does not exist in :other")
 
 // System Error
 var OptionDateIsRequiredError = errors.New("option Date is required")
